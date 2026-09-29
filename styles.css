@@ -39,6 +39,7 @@ a { color: inherit; }
   padding: 1.25rem;
   background: #000;
 }
+.login-screen[hidden] { display: none; }
 .login-box { width: min(100%, 390px); }
 .login-form { display: grid; gap: .65rem; }
 .login-form label { margin-top: .75rem; color: var(--muted); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
