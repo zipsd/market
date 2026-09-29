@@ -11,9 +11,24 @@
   <meta property="og:url" content="https://zipsd.github.io/market/">
   <title>Market — Каталог по предметам</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="credentials.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
+  <section class="login-screen" id="login-screen" aria-label="Вход">
+    <div class="login-box">
+      <form class="login-form" id="login-form">
+        <label for="login-username">Логин</label>
+        <input id="login-username" name="username" type="text" autocomplete="username" required>
+        <label for="login-password">Пароль</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        <button class="login-button" type="submit">Войти</button>
+        <p class="login-error" id="login-error" role="alert" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <div class="site-shell" id="site-shell" hidden>
   <a class="skip-link" href="#catalog">Перейти к каталогу</a>
 
   <header class="site-header">
@@ -21,6 +36,7 @@
     <nav aria-label="Основная навигация">
       <a href="#catalog">Каталог</a>
       <a href="#faq">Вопросы</a>
+      <button class="logout-button" id="logout-button" type="button">Выйти</button>
     </nav>
   </header>
 
@@ -78,6 +94,7 @@
     <p>© 2026 ZIP-SD Market.</p>
     <p class="footer-status"><span class="status-dot" aria-hidden="true"></span> Безопасная ручная выдача</p>
   </footer>
+  </div>
 
   <div class="modal" id="payment-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description" hidden>
     <div class="modal-backdrop" data-close-modal></div>

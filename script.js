@@ -37,6 +37,26 @@ const PRODUCTS = [
   }
 ];
 
+const SUBJECTS = [
+  "Алгебра",
+  "Геометрия",
+  "Литература",
+  "Русский язык",
+  "Английский язык (345 кабинет)",
+  "Химия",
+  "Физика",
+  "Биология",
+  "География",
+  "История",
+  "Информатика (338 кабинет)",
+  "Музыка"
+];
+
+const loginScreen = document.querySelector("#login-screen");
+const loginForm = document.querySelector("#login-form");
+const loginError = document.querySelector("#login-error");
+const siteShell = document.querySelector("#site-shell");
+const logoutButton = document.querySelector("#logout-button");
 const grid = document.querySelector("#product-grid");
 const productCount = document.querySelector("#product-count");
 const subjectFilters = document.querySelector("#subject-filters");
@@ -53,6 +73,7 @@ const copyButton = document.querySelector("#copy-address");
 const copyStatus = document.querySelector("#copy-status");
 let lastFocusedElement = null;
 let activeSubject = "Все";
+let storeInitialized = false;
 
 function formatPrice(value) {
   return `${STORE_CONFIG.CURRENCY_SYMBOL}${value}`;
@@ -87,7 +108,7 @@ function renderProducts() {
 }
 
 function renderSubjectFilters() {
-  const subjects = ["Все", ...new Set(PRODUCTS.map((product) => product.subject))];
+  const subjects = ["Все", ...SUBJECTS];
   const fragment = document.createDocumentFragment();
   subjects.forEach((subject) => {
     const button = document.createElement("button");
@@ -187,5 +208,55 @@ document.addEventListener("keydown", (event) => {
 });
 
 copyButton.addEventListener("click", copyAddress);
-renderSubjectFilters();
-renderProducts();
+
+function initializeStore() {
+  if (storeInitialized) return;
+  renderSubjectFilters();
+  renderProducts();
+  storeInitialized = true;
+}
+
+function showStore() {
+  loginScreen.hidden = true;
+  siteShell.hidden = false;
+  document.body.classList.remove("login-active");
+  initializeStore();
+}
+
+function showLogin() {
+  siteShell.hidden = true;
+  loginScreen.hidden = false;
+  document.body.classList.add("login-active");
+  loginForm.reset();
+  loginError.textContent = "";
+  document.querySelector("#login-username").focus();
+}
+
+loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(loginForm);
+  const username = String(formData.get("username") || "");
+  const password = String(formData.get("password") || "");
+  const credentials = Array.isArray(window.MARKET_USERS) ? window.MARKET_USERS : [];
+  const allowed = credentials.some((user) => user.username === username && user.password === password);
+
+  if (!allowed) {
+    loginError.textContent = "Неверный логин или пароль.";
+    document.querySelector("#login-password").select();
+    return;
+  }
+
+  sessionStorage.setItem("market_authenticated", "true");
+  showStore();
+});
+
+logoutButton.addEventListener("click", () => {
+  sessionStorage.removeItem("market_authenticated");
+  showLogin();
+});
+
+if (sessionStorage.getItem("market_authenticated") === "true") {
+  showStore();
+} else {
+  showLogin();
+}
