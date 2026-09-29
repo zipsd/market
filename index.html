@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Study documents and practical learning materials from ZIP-SD Market.">
+  <meta name="theme-color" content="#050806">
+  <meta property="og:title" content="Market — Study Materials">
+  <meta property="og:description" content="Practical documents, problem sets, and study materials.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://YOUR_GITHUB_USERNAME.github.io/market/">
+  <title>Market — Study Materials</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#catalog">Skip to catalog</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Market home"><span aria-hidden="true">&gt;_</span> MARKET</a>
+    <nav aria-label="Main navigation">
+      <a href="#catalog">Catalog</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> DIGITAL STUDY FILES</div>
+      <h1 id="hero-title">Study<br><span>Materials.</span></h1>
+      <p>Clear, practical documents with tasks and learning materials—built to help you study with less noise and more focus.</p>
+      <a class="primary-link" href="#catalog">Browse materials</a>
+      <div class="terminal-line" aria-hidden="true"><span>market@study:~$</span> find the right material<span class="cursor"></span></div>
+    </section>
+
+    <section class="catalog section" id="catalog" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">/catalog</p>
+          <h2 id="catalog-title">Available documents</h2>
+        </div>
+        <p id="product-count" class="count" aria-live="polite"></p>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <section class="faq section" id="faq" aria-labelledby="faq-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">/help</p>
+          <h2 id="faq-title">FAQ</h2>
+        </div>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>How much does a document cost?</summary>
+          <p>Each document currently costs $15. The payment window shows the exact amount before you pay.</p>
+        </details>
+        <details>
+          <summary>How can I pay?</summary>
+          <p>Payment is accepted in the cryptocurrency and network shown in the payment window. Always verify the network before sending.</p>
+        </details>
+        <details>
+          <summary>How do I receive my document?</summary>
+          <p>After payment, contact us and send your transaction hash (TXID). Once confirmed, the document will be delivered privately.</p>
+        </details>
+        <details>
+          <summary>Can I request a refund?</summary>
+          <p>Contact us before purchase if you have questions. Because these are digital files, refunds are reviewed individually and may not be available after delivery.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 ZIP-SD Market.</p>
+    <p class="footer-status"><span class="status-dot" aria-hidden="true"></span> Secure manual delivery</p>
+  </footer>
+
+  <div class="modal" id="payment-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel" tabindex="-1">
+      <div class="modal-topbar">
+        <span>PAYMENT://CHECKOUT</span>
+        <button class="icon-button" type="button" aria-label="Close payment window" data-close-modal>×</button>
+      </div>
+      <div class="modal-body">
+        <p class="section-kicker">Selected document</p>
+        <h2 id="modal-title">Document title</h2>
+        <p class="modal-description" id="modal-description">Send the exact amount using the network below.</p>
+
+        <div class="payment-summary">
+          <div><span>Price</span><strong id="modal-price">$15</strong></div>
+          <div><span>Network</span><strong id="modal-network">YOUR_NETWORK</strong></div>
+        </div>
+
+        <div class="payment-area">
+          <div class="qr-placeholder" aria-label="QR code placeholder">
+            <span>QR</span>
+            <small>ADD YOUR<br>QR CODE</small>
+          </div>
+          <div class="address-block">
+            <label for="wallet-address">Public wallet address</label>
+            <div class="address-row">
+              <code id="wallet-address">YOUR_PUBLIC_WALLET_ADDRESS</code>
+              <button class="copy-button" id="copy-address" type="button">Copy address</button>
+            </div>
+            <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="warning"><span aria-hidden="true">!</span><p>Check that the selected network matches <strong id="warning-network">YOUR_NETWORK</strong> before sending. Funds sent through another network may be lost.</p></div>
+        <div class="delivery-note">
+          <span class="step-number">01</span>
+          <p>After payment, contact <strong id="contact">YOUR_CONTACT</strong> and send the transaction hash / TXID. Your document will be delivered after confirmation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
