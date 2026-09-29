@@ -209,6 +209,14 @@ async function verifyAndDownload(url, expectedHash) {
   });
 
   let objectUrl = "";
+  let downloadName = "download";
+  try {
+    const fileUrl = new URL(url, window.location.href);
+    downloadName = decodeURIComponent(fileUrl.pathname.split("/").pop()) || downloadName;
+  } catch {
+    // Если URL нестандартный, браузер всё равно получит безопасное запасное имя.
+  }
+
   try {
     const verification = expectedHash
       ? fetch(url).then(async (response) => {
@@ -218,7 +226,8 @@ async function verifyAndDownload(url, expectedHash) {
           if (bytesToHex(digest) !== expectedHash.toLowerCase().replaceAll(" ", "")) {
             throw new Error("Контрольная сумма не совпала");
           }
-          objectUrl = URL.createObjectURL(new Blob([fileData]));
+          const contentType = response.headers.get("content-type") || "application/octet-stream";
+          objectUrl = URL.createObjectURL(new Blob([fileData], { type: contentType }));
         })
       : Promise.resolve();
 
@@ -226,7 +235,7 @@ async function verifyAndDownload(url, expectedHash) {
     verificationStatus.textContent = "Проверка завершена. Начинаем скачивание…";
     const download = document.createElement("a");
     download.href = objectUrl || url;
-    download.download = "";
+    download.download = downloadName;
     download.rel = "noopener";
     document.body.append(download);
     download.click();
