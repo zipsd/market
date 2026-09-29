@@ -176,6 +176,14 @@ h2 { margin: 0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-s
 .file-meta { display: flex; flex-direction: column; color: var(--muted); font-size: .75rem; }
 .price { color: var(--text); font-size: 1.2rem; font-weight: 800; }
 .buy-button { padding: .75rem .9rem; }
+.buy-button:disabled { transform: none; border-color: var(--line); background: transparent; box-shadow: none; color: var(--muted); cursor: not-allowed; }
+
+.premium { padding-top: 1rem; }
+.premium-card { display: grid; grid-template-columns: 1.5fr .7fr; gap: 3rem; align-items: end; padding: clamp(1.5rem, 5vw, 3.5rem); border: 1px solid var(--green); background: linear-gradient(135deg, var(--green-soft), transparent 60%), var(--panel); }
+.premium-description { max-width: 650px; margin: 1.2rem 0 0; color: var(--muted); font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.premium-action { display: flex; align-items: stretch; flex-direction: column; gap: .8rem; }
+.premium-price { color: var(--green); font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; line-height: 1; }
+.premium-action small { color: var(--muted); line-height: 1.4; }
 
 .faq { padding-bottom: 8rem; }
 .faq-list { border-top: 1px solid var(--line); }
@@ -223,6 +231,7 @@ footer p { margin: 0; }
 :focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
 @media (max-width: 820px) {
   .product-grid { grid-template-columns: 1fr; }
+  .premium-card { grid-template-columns: 1fr; }
   .product-card { min-height: 320px; }
   .terminal-line { display: none; }
 }

@@ -10,9 +10,9 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zipsd.github.io/market/">
   <title>Market — Каталог по предметам</title>
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
   <script src="credentials.js?v=2" defer></script>
-  <script src="script.js?v=2" defer></script>
+  <script src="script.js?v=4" defer></script>
 </head>
 <body>
   <section class="login-screen" id="login-screen" aria-label="Вход">
@@ -62,6 +62,21 @@
       <div class="product-grid" id="product-grid"></div>
     </section>
 
+    <section class="premium section" id="premium" aria-labelledby="premium-title">
+      <div class="premium-card">
+        <div>
+          <p class="section-kicker">/premium</p>
+          <h2 id="premium-title">Все решения.<br>С объяснениями.</h2>
+          <p class="premium-description">Premium открывает полные решения и подробные объяснения ко всем доступным работам.</p>
+        </div>
+        <div class="premium-action">
+          <span class="premium-price">$7</span>
+          <button class="buy-button" id="premium-button" type="button">Купить Premium за $7</button>
+          <small>Выдача вручную после проверки TXID</small>
+        </div>
+      </div>
+    </section>
+
     <section class="faq section" id="faq" aria-labelledby="faq-title">
       <div class="section-heading">
         <div>
@@ -71,20 +86,20 @@
       </div>
       <div class="faq-list">
         <details>
-          <summary>Сколько стоит документ?</summary>
-          <p>Сейчас каждый документ стоит $15. Точная сумма всегда указана в окне оплаты.</p>
+          <summary>Что доступно бесплатно?</summary>
+          <p>Все обычные файлы в каталоге доступны бесплатно сразу после входа.</p>
         </details>
         <details>
-          <summary>Как можно оплатить?</summary>
-          <p>Оплата принимается в криптовалюте и сети, указанных в окне оплаты. Перед отправкой обязательно проверьте выбранную сеть.</p>
+          <summary>Сколько стоит Premium?</summary>
+          <p>Premium стоит $7 и включает все решения с подробными объяснениями.</p>
         </details>
         <details>
-          <summary>Как я получу документ?</summary>
-          <p>После оплаты свяжитесь с нами и отправьте хеш транзакции (TXID). После подтверждения документ будет отправлен вам лично.</p>
+          <summary>Как получить Premium?</summary>
+          <p>После оплаты свяжитесь с нами и отправьте хеш транзакции (TXID). Premium будет выдан вручную после подтверждения платежа.</p>
         </details>
         <details>
           <summary>Можно ли оформить возврат?</summary>
-          <p>Если у вас есть вопросы, свяжитесь с нами до покупки. Поскольку это цифровые файлы, каждый запрос на возврат рассматривается отдельно, а после получения документа возврат может быть недоступен.</p>
+          <p>Если у вас есть вопросы, свяжитесь с нами до покупки. После выдачи Premium возврат может быть недоступен.</p>
         </details>
       </div>
     </section>
@@ -109,7 +124,7 @@
         <p class="modal-description" id="modal-description">Отправьте точную сумму, используя указанную ниже сеть.</p>
 
         <div class="payment-summary">
-          <div><span>Цена</span><strong id="modal-price">$15</strong></div>
+          <div><span>Цена</span><strong id="modal-price">$7</strong></div>
           <div><span>Сеть</span><strong id="modal-network">YOUR_NETWORK</strong></div>
         </div>
 

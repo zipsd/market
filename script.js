@@ -9,6 +9,8 @@ const STORE_CONFIG = {
   CURRENCY_SYMBOL: "$"
 };
 
+const PREMIUM_PRICE = 7;
+
 // Изменяйте, добавляйте или удаляйте товары только в этом списке.
 const PRODUCTS = [
   {
@@ -17,7 +19,7 @@ const PRODUCTS = [
     description: "Уравнения, неравенства и практические задания с понятной структурой решения.",
     subject: "Алгебра",
     format: "PDF",
-    price: 15
+    fileUrl: ""
   },
   {
     id: "physics-formula-guide",
@@ -25,7 +27,7 @@ const PRODUCTS = [
     description: "Основные формулы, короткие объяснения и примеры задач для быстрого повторения.",
     subject: "Физика",
     format: "PDF",
-    price: 15
+    fileUrl: ""
   },
   {
     id: "geometry-workbook",
@@ -33,7 +35,7 @@ const PRODUCTS = [
     description: "Задания по геометрии с чертежами и местом для полного оформления решений.",
     subject: "Геометрия",
     format: "PDF",
-    price: 15
+    fileUrl: ""
   }
 ];
 
@@ -57,6 +59,7 @@ const loginForm = document.querySelector("#login-form");
 const loginError = document.querySelector("#login-error");
 const siteShell = document.querySelector("#site-shell");
 const logoutButton = document.querySelector("#logout-button");
+const premiumButton = document.querySelector("#premium-button");
 const grid = document.querySelector("#product-grid");
 const productCount = document.querySelector("#product-count");
 const subjectFilters = document.querySelector("#subject-filters");
@@ -88,8 +91,10 @@ function createProductCard(product, index) {
     <h3>${product.title}</h3>
     <p class="product-description">${product.description}</p>
     <div class="product-footer">
-      <div class="file-meta"><span>${product.subject} / ${product.format}</span><span class="price">${formatPrice(product.price)}</span></div>
-      <button class="buy-button" type="button" data-product-id="${product.id}">Купить за ${formatPrice(product.price)}</button>
+      <div class="file-meta"><span>${product.subject} / ${product.format}</span><span class="price">Бесплатно</span></div>
+      ${product.fileUrl
+        ? `<a class="buy-button" href="${product.fileUrl}" target="_blank" rel="noopener">Открыть бесплатно</a>`
+        : `<button class="buy-button" type="button" disabled>Материал готовится</button>`}
     </div>`;
   return article;
 }
@@ -169,13 +174,6 @@ async function copyAddress() {
   }
 }
 
-grid.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-product-id]");
-  if (!button) return;
-  const product = PRODUCTS.find((item) => item.id === button.dataset.productId);
-  if (product) openModal(product);
-});
-
 subjectFilters.addEventListener("click", (event) => {
   const button = event.target.closest("[data-subject]");
   if (!button) return;
@@ -208,6 +206,9 @@ document.addEventListener("keydown", (event) => {
 });
 
 copyButton.addEventListener("click", copyAddress);
+premiumButton.addEventListener("click", () => {
+  openModal({ title: "Market Premium", price: PREMIUM_PRICE });
+});
 
 function initializeStore() {
   if (storeInitialized) return;
