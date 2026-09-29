@@ -10,9 +10,9 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zipsd.github.io/market/">
   <title>Market — Каталог по предметам</title>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
   <script src="credentials.js?v=2" defer></script>
-  <script src="script.js?v=4" defer></script>
+  <script src="script.js?v=5" defer></script>
 </head>
 <body>
   <section class="login-screen" id="login-screen" aria-label="Вход">
@@ -149,6 +149,16 @@
           <p>После оплаты напишите <strong id="contact">YOUR_CONTACT</strong> и отправьте хеш транзакции / TXID. Документ будет выдан после подтверждения платежа.</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="verification-modal" id="verification-modal" role="dialog" aria-modal="true" aria-labelledby="verification-title" hidden>
+    <div class="verification-box">
+      <span class="verification-code" aria-hidden="true">VERIFY://FILE</span>
+      <h2 id="verification-title">Подготовка файла</h2>
+      <p id="verification-status" role="status" aria-live="polite">Проверка подлинности сертификата и целостности файлов…</p>
+      <div class="verification-track" aria-hidden="true"><span id="verification-progress"></span></div>
+      <button class="verification-close" id="verification-close" type="button" hidden>Закрыть</button>
     </div>
   </div>
 </body>

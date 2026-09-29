@@ -19,7 +19,8 @@ const PRODUCTS = [
     description: "Уравнения, неравенства и практические задания с понятной структурой решения.",
     subject: "Алгебра",
     format: "PDF",
-    fileUrl: ""
+    fileUrl: "",
+    sha256: ""
   },
   {
     id: "physics-formula-guide",
@@ -27,7 +28,8 @@ const PRODUCTS = [
     description: "Основные формулы, короткие объяснения и примеры задач для быстрого повторения.",
     subject: "Физика",
     format: "PDF",
-    fileUrl: ""
+    fileUrl: "",
+    sha256: ""
   },
   {
     id: "geometry-workbook",
@@ -35,7 +37,8 @@ const PRODUCTS = [
     description: "Задания по геометрии с чертежами и местом для полного оформления решений.",
     subject: "Геометрия",
     format: "PDF",
-    fileUrl: ""
+    fileUrl: "",
+    sha256: ""
   }
 ];
 
@@ -74,6 +77,9 @@ const walletAddress = document.querySelector("#wallet-address");
 const contact = document.querySelector("#contact");
 const copyButton = document.querySelector("#copy-address");
 const copyStatus = document.querySelector("#copy-status");
+const verificationModal = document.querySelector("#verification-modal");
+const verificationStatus = document.querySelector("#verification-status");
+const verificationClose = document.querySelector("#verification-close");
 let lastFocusedElement = null;
 let activeSubject = "Все";
 let storeInitialized = false;
@@ -93,7 +99,7 @@ function createProductCard(product, index) {
     <div class="product-footer">
       <div class="file-meta"><span>${product.subject} / ${product.format}</span><span class="price">Бесплатно</span></div>
       ${product.fileUrl
-        ? `<a class="buy-button" href="${product.fileUrl}" target="_blank" rel="noopener">Открыть бесплатно</a>`
+        ? `<button class="buy-button" type="button" data-download-url="${product.fileUrl}" data-sha256="${product.sha256 || ""}">Скачать бесплатно</button>`
         : `<button class="buy-button" type="button" disabled>Материал готовится</button>`}
     </div>`;
   return article;
@@ -182,6 +188,72 @@ subjectFilters.addEventListener("click", (event) => {
     item.setAttribute("aria-pressed", String(item.dataset.subject === activeSubject));
   });
   renderProducts();
+});
+
+function wait(milliseconds) {
+  return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+}
+
+function bytesToHex(buffer) {
+  return [...new Uint8Array(buffer)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function verifyAndDownload(url, expectedHash) {
+  verificationModal.hidden = false;
+  verificationModal.classList.remove("has-error");
+  verificationClose.hidden = true;
+  verificationStatus.textContent = "Проверка подлинности сертификата и целостности файлов…";
+  requestAnimationFrame(() => {
+    verificationModal.classList.add("is-open");
+    requestAnimationFrame(() => verificationModal.classList.add("is-running"));
+  });
+
+  let objectUrl = "";
+  try {
+    const verification = expectedHash
+      ? fetch(url).then(async (response) => {
+          if (!response.ok) throw new Error("Файл недоступен");
+          const fileData = await response.arrayBuffer();
+          const digest = await crypto.subtle.digest("SHA-256", fileData);
+          if (bytesToHex(digest) !== expectedHash.toLowerCase().replaceAll(" ", "")) {
+            throw new Error("Контрольная сумма не совпала");
+          }
+          objectUrl = URL.createObjectURL(new Blob([fileData]));
+        })
+      : Promise.resolve();
+
+    await Promise.all([wait(5000), verification]);
+    verificationStatus.textContent = "Проверка завершена. Начинаем скачивание…";
+    const download = document.createElement("a");
+    download.href = objectUrl || url;
+    download.download = "";
+    download.rel = "noopener";
+    document.body.append(download);
+    download.click();
+    download.remove();
+    await wait(700);
+    verificationModal.classList.remove("is-open", "is-running");
+    await wait(200);
+    verificationModal.hidden = true;
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+  } catch (error) {
+    verificationModal.classList.remove("is-running");
+    verificationModal.classList.add("has-error");
+    verificationStatus.textContent = "Не удалось подтвердить целостность файла. Скачивание отменено.";
+    verificationClose.hidden = false;
+    verificationClose.focus();
+  }
+}
+
+grid.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-download-url]");
+  if (!button) return;
+  verifyAndDownload(button.dataset.downloadUrl, button.dataset.sha256);
+});
+
+verificationClose.addEventListener("click", () => {
+  verificationModal.classList.remove("is-open", "is-running", "has-error");
+  verificationModal.hidden = true;
 });
 
 modal.addEventListener("click", (event) => {
