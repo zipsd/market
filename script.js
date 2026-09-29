@@ -19,8 +19,8 @@ const PRODUCTS = [
     description: "Уравнения, неравенства и практические задания с понятной структурой решения.",
     subject: "Алгебра",
     format: "PDF",
-    fileUrl: "",
-    sha256: ""
+    fileUrl: "test-algebra.pdf",
+    sha256: "2e61b5969b48098c8d48fbb88809e8e33d8da1b399e7cf9c6df303091862830f"
   },
   {
     id: "physics-formula-guide",
